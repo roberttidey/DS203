@@ -4,7 +4,7 @@ setlocal ENABLEDELAYEDEXPANSION
 rem DS203 Win32 GCC support by valky.eu ver 2.0
 rem USER DEFINED VALUES
 rem ===================================================
-set CBASE=..\Toolchain\arm-2011.03-lite\bin\
+set CBASE=F:\UserData\arm-2011.03\bin\
 set TFILE=GABOUI
 set APP=1
 rem ===================================================

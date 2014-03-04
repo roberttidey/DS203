@@ -182,6 +182,7 @@ public:
 			IoClosed = 3
 		};
 		static PVOID GetSharedBuffer();
+      static ui16 SectorSize();
 		static BOOL Open(FILEINFO* pFileInfo, const char* strName, ui8 nIoMode);
 		static BOOL Read(FILEINFO* pFileInfo, ui8* pSectorData);
 		static BOOL Write(FILEINFO* pFileInfo, ui8* pSectorData);
