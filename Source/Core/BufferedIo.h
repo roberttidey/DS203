@@ -23,7 +23,7 @@ public:
 			return;
 		}
 #ifdef _WIN32
-		memset(m_pData, 0, FILEINFO::SectorSize);
+		memset(m_pData, 0, BIOS::DSK::SectorSize());
 #endif
 	}
 
@@ -66,12 +66,12 @@ public:
 		for (int i = 0; i < stream.GetLength(); i++ )
 		{
 			m_pData[m_nOffset++] = stream[i];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::DSK::Write( &m_FileInfo, m_pData );
 #ifdef _WIN32
-				memset( m_pData, 0x20, FILEINFO::SectorSize );
+				memset( m_pData, 0x20, BIOS::DSK::SectorSize() );
 #endif
 			}
 		}
@@ -116,7 +116,7 @@ public:
 		for ( i = 0; i < nLimit-1; i++ )
 		{
 			str[i] = m_pData[m_nOffset++];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::DSK::Read( &m_FileInfo, m_pData );
@@ -156,7 +156,7 @@ public:
 		for (int i = 0; i < stream.GetLength(); i++ )
 		{
 			stream[i] = m_pData[m_nOffset++];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::DSK::Read( &m_FileInfo, m_pData );
@@ -199,7 +199,7 @@ public:
 		for ( i = 0; i < nLimit-1; i++ )
 		{
 			str[i] = m_pData[m_nOffset++];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::FAT::EResult eResult = BIOS::FAT::Read( m_pData );
@@ -246,7 +246,7 @@ public:
 		for (int i = 0; i < stream.GetLength(); i++ )
 		{
 			stream[i] = m_pData[m_nOffset++];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::FAT::EResult eResult = BIOS::FAT::Read( m_pData );
@@ -258,7 +258,7 @@ public:
 
 	void Seek(ui32 lOffset)
 	{
-		m_nOffset = lOffset % FILEINFO::SectorSize;
+		m_nOffset = lOffset % BIOS::DSK::SectorSize();
 		lOffset -= m_nOffset;
 		BIOS::FAT::Seek( lOffset );
 		BIOS::FAT::EResult eResult = BIOS::FAT::Read( m_pData );
@@ -291,7 +291,7 @@ public:
 		}
 
 #ifdef _WIN32
-		memset(m_pData, 0, FILEINFO::SectorSize);
+		memset(m_pData, 0, BIOS::DSK::SectorSize());
 #endif
 		return true;
 	}
@@ -341,13 +341,13 @@ public:
 		for (int i = 0; i < stream.GetLength(); i++ )
 		{
 			m_pData[m_nOffset++] = stream[i];
-			if ( m_nOffset == FILEINFO::SectorSize )
+			if ( m_nOffset == BIOS::DSK::SectorSize() )
 			{
 				m_nOffset = 0;
 				BIOS::FAT::EResult eResult = BIOS::FAT::Write( m_pData );
 				_ASSERT( eResult == BIOS::FAT::EOk );
 #ifdef _WIN32
-				memset( m_pData, 0x20, FILEINFO::SectorSize );
+				memset( m_pData, 0x20, BIOS::DSK::SectorSize() );
 #endif
 			}
 		}

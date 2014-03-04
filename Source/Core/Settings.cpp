@@ -311,9 +311,9 @@ void CSettings::Reset()
 ui32 CSettings::GetChecksum()
 {
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 	bufStream << *this;
 	return bufStream.GetChecksum();
 }
@@ -327,9 +327,9 @@ void CSettings::Save()
 		return;
 	}
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 	bufStream << *this;
 
 	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
@@ -349,7 +349,7 @@ void CSettings::Load()
 
 	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 	bufStream >> *this;
 
 	BIOS::DSK::Close(&f);
@@ -407,23 +407,23 @@ void CSettings::SaveCalibration()
 		return;
 	}
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 
 	ui32 dwId = ToDword('C', 'A', 'L', '1');
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 	bufStream
 			<< dwId
 			<< CStream(&DacCalib, sizeof(DacCalib));
 
 	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
 
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 	bufStream.Reset();
 	bufStream << CStream(&CH1Calib, sizeof(CH1Calib));
 	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
 
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 	bufStream.Reset();
 	bufStream << CStream(&CH2Calib, sizeof(CH1Calib));
 
@@ -444,7 +444,7 @@ bool CSettings::LoadCalibration()
 
 	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 
 	ui32 dwId = 0;
 	bufStream >> dwId;
@@ -471,9 +471,9 @@ bool CSettings::LoadCalibration()
 ui32 CSettings::GetStaticChecksum()
 {
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
-	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
+	memset( pSharedBuffer, 0, BIOS::DSK::SectorSize() );
 
-	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
+	CStream bufStream( pSharedBuffer, BIOS::DSK::SectorSize() );
 
 	int nUptime = Settings.Runtime.m_nUptime;
 	float arrMeasValues[6];

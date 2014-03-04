@@ -89,9 +89,9 @@ public:
 			for (int j=0; j<4; j++)
 			{
 				pData[nOffset] = (unsigned char)( nValue >> (j<<3) );
-				if ( ++nOffset >= FILEINFO::SectorSize )
+				if ( ++nOffset >= BIOS::DSK::SectorSize() )
 				{
-					nSize += FILEINFO::SectorSize;
+					nSize += BIOS::DSK::SectorSize();
 					nOffset = 0;
 					BIOS::DSK::Write( &f, pData );
 				}

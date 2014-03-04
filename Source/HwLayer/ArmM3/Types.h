@@ -87,12 +87,13 @@ extern void Assert(const char* msg, int n);
 #define ToDword(a, b, c, d) (ui32)((ToWord(d, c)<<16)|ToWord(b,a))
 
 //#define LINKERSECTION(sec) __attribute__((section(".extra")))
-#define LINKERSECTION(sec) 
+#define LINKERSECTION(sec)
+ 
+#define FLASH_2M_SECTOR_SIZE 512
+#define FLASH_8M_SECTOR_SIZE 4096
+#define LARGEST_SECTOR_SIZE 4096
 
 struct FILEINFO {
-	enum {
-		SectorSize = 512
-	};
 	ui16 pCluster[3];
 	ui32 pDirAddr[1];
 	ui8 nMode;

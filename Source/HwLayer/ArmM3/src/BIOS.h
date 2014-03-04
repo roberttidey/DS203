@@ -120,6 +120,7 @@ CH_D Trigger source & kind select =>
 #define DFUVER         14       // DFU程序模块版本号 
 #define SYSVER         15       // SYS程序模块版本号 
 #define FPGAVER        16       // FPGA配置程序版本号 
+#define DEVICEINFO     18
 
 #define ADC_DATA       32+0     // 0~7:ADC_CH_A 8~15:ADC_CH_B 16~17:CH_C&CH_D 
 #define PRE_SAMPLING   32+1     // 0~15:Pre-sampling depth

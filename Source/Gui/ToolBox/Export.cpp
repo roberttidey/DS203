@@ -251,9 +251,9 @@ void CExport::SaveScreenshot32(char* strName_ /*= NULL*/)
 			for ( int c=0; c<3; c++ )
 			{
 				pData[nOffset] = arrColors[c];
-				if ( ++nOffset >= FILEINFO::SectorSize )
+				if ( ++nOffset >= BIOS::DSK::SectorSize() )
 				{
-					nSize += FILEINFO::SectorSize;
+					nSize += BIOS::DSK::SectorSize();
 					nOffset = 0;
 					BIOS::DSK::Write( &f, pData );
 				}

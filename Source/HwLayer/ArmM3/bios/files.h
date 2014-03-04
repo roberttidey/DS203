@@ -10,9 +10,33 @@
 #define WR_ERR 9 
 #define DISK_ERR 10 
 
+/*static*/ ui16 BIOS::DSK::SectorSize()
+{
+	static ui16 pSectorSize;
+   if (pSectorSize == 0 ) {
+      u32 ptr;
+      u8 Ver[8];
+      uc8 DiskDevInfo_8M[]={"8MB Internal"};
+      ptr=__Get(DFUVER, 0);
+      memcpy(Ver,(u8*)ptr,5);
+      ptr=(Ver[1]-'0')*100 +(Ver[3]-'0')*10 +(Ver[4]-'0'); 
+      if(ptr<=311){
+         pSectorSize = FLASH_2M_SECTOR_SIZE;
+      } else {
+         ptr=__Get(DEVICEINFO, 0);
+         if(memcmp((u8*)ptr,DiskDevInfo_8M,3)==0){
+            pSectorSize = FLASH_8M_SECTOR_SIZE;
+         } else {
+            pSectorSize = FLASH_2M_SECTOR_SIZE;
+         }
+      }  
+   }
+   return pSectorSize;
+}
+
 /*static*/ PVOID BIOS::DSK::GetSharedBuffer()
 {
-	static ui8 pSectorBuffer[FILEINFO::SectorSize];
+	static ui8 pSectorBuffer[LARGEST_SECTOR_SIZE];
 	return (PVOID)pSectorBuffer;
 }
 

@@ -3,7 +3,7 @@
 class CSdkStreamProvider : public CSdkEval
 {
 public:
-	CHAR m_strExpression[FILEINFO::SectorSize];
+	CHAR m_strExpression[LARGEST_SECTOR_SIZE];
 	CHAR m_strSimpleAns[64];
 	PSTR m_pszExpression;
 	int m_nSimpleLen;
@@ -195,7 +195,7 @@ void CMainWnd::SdkDiskProc()
 			fbase = f;
 			m_wndMessage.Show(this, "SDK Information", "SDK File Found!", RGB565(00FF00));
 
-			memset(buf, 0, FILEINFO::SectorSize);       	
+			memset(buf, 0, BIOS::DSK::SectorSize());       	
 			strcpy(buf, "ANS=(text, msg) DSO SDK Version 1.0 by Valky.eu 2012. Ready... Type 'REQ=your expression'");
 			strcpy(buf+strlen(buf)+1, "END\x1b");
 			_ASSERT_VALID( BIOS::DSK::Write(&f, (ui8*)buf ) );
@@ -212,11 +212,11 @@ void CMainWnd::SdkDiskProc()
 	{
 		int nChar, nOffset = 0, nFrame = 0;
 		SdkStream.Evaluate( buf+4 );
-		ui8* arrSector = (ui8*)buf; //[FILEINFO::SectorSize];
-		ui8 arrFirstSector[FILEINFO::SectorSize];
+		ui8* arrSector = (ui8*)buf; //[BIOS::DSK::SectorSize()];
+		ui8 arrFirstSector[BIOS::DSK::SectorSize()];
 	
 		f = fbase;
-		memset( arrSector, 0, FILEINFO::SectorSize );
+		memset( arrSector, 0, BIOS::DSK::SectorSize() );
 		while ( ( nChar = SdkStream.GetChar() ) != -1 )
 		{
 			arrSector[nOffset++] = (unsigned char)nChar;
@@ -232,7 +232,7 @@ void CMainWnd::SdkDiskProc()
 							first sector again with "ANS=" control sequence.
 					*/
 					ui8 first[4];
-					memcpy( arrFirstSector, arrSector, FILEINFO::SectorSize );
+					memcpy( arrFirstSector, arrSector, BIOS::DSK::SectorSize() );
 					memcpy( first, arrSector, 4 );
 					memcpy( arrSector, "____", 4 );
 				}
@@ -240,7 +240,7 @@ void CMainWnd::SdkDiskProc()
 				// write
 				_ASSERT_VALID( BIOS::DSK::Write(&f, arrSector) );
 
-				memset( arrSector, 0, FILEINFO::SectorSize );
+				memset( arrSector, 0, BIOS::DSK::SectorSize() );
 
 				nFrame++;
 				nOffset = 0;

@@ -1,7 +1,7 @@
 /* Define memory regions. */
 MEMORY
 {
-  RAM (rwx) : ORIGIN = 0x20003000, LENGTH = 34K
+  RAM (rwx) : ORIGIN = 0x20003000, LENGTH = 42K
 	ROM (rx) : ORIGIN = 0x0804C000, LENGTH = 200K
   ENTRY (rx) : ORIGIN = 0x08014000, LENGTH = 2K
 /*  BIOSRAM (rwx) : ORIGIN = 0x20003000, LENGTH = 2K
@@ -15,7 +15,7 @@ MEMORY
 	// 0x20000C00 .. 0x20001800  GBIOS     (3k)
 	// 0x20001800 .. 0x20002000  JPA       (2k)
 	// 0x20002000 .. 0x20003000            (4k)
-	// 0x20003000 .. 0x2000B800  APP RAM   (34k)
-	// 0x2000B800 .. 0x2000C000  STACK     (2k)
+	// 0x20003000 .. 0x2000D800  APP RAM   (42k)
+	// 0x2000D800 .. 0x2000E000  STACK     (2k)
 */
 INCLUDE ../Source/HwLayer/ArmM3/lds/main.lds
